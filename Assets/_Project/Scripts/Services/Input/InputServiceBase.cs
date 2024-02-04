@@ -6,8 +6,8 @@ namespace Services.Input
     public abstract class InputServiceBase : IInputService
     {
         public Vector2 GetMoveDirection()
-            => new(
-                UnityEngine.Input.GetAxisRaw(InputConstants.Horizontal), 
-                UnityEngine.Input.GetAxisRaw(InputConstants.Vertical));
+            => new Vector2(
+                UnityEngine.Input.GetAxisRaw(InputConstants.Horizontal),
+                UnityEngine.Input.GetAxisRaw(InputConstants.Vertical)).normalized;
     }
 }
