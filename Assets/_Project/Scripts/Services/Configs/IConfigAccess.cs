@@ -10,9 +10,9 @@ namespace Services.Configs
             where TConfig : Object;
 
         public TConfig GetMultiple<TConfig>(string id)
-            where TConfig : Object, IConfig;
+            where TConfig : Object, IIdConfig;
         
         public IEnumerable<TConfig> GetAllMultiple<TConfig>() 
-            where TConfig : Object, IConfig;
+            where TConfig : Object, IIdConfig;
     }
 }

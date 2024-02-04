@@ -1,35 +1,41 @@
-﻿using Leopotam.EcsLite;
+﻿using Additional.Constants;
 using Services.Configs;
 using Services.Save;
+using StaticData;
+using UnityEngine.SceneManagement;
 
-namespace GamePlay.Systems
+namespace GameFlow.Boot
 {
-    public class GameInitSystem : IEcsInitSystem
+    public class BootEntryPoint
     {
         private readonly IConfigLoader _configLoader;
         private readonly SaveService _saveService;
 
 
-        public GameInitSystem(
+        public BootEntryPoint(
             IConfigLoader configLoader,
             SaveService saveService)
         {
             _configLoader = configLoader;
             _saveService = saveService;
         }
-        
-        public void Init(IEcsSystems systems)
+
+        public void Execute()
         {
             LoadSaveData();
             LoadStaticData();
+            LoadMainMenu();
         }
 
         private void LoadSaveData()
             => _saveService.Load();
 
+        private void LoadMainMenu()
+            => SceneManager.LoadScene(SceneNames.MainMenu);
+
         private void LoadStaticData()
         {
-            
+            _configLoader.LoadSingle<PlayerConfig>(StaticDataPaths.PlayerConfig);
         }
     }
 }

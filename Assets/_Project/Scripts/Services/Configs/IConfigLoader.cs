@@ -9,6 +9,6 @@ namespace Services.Configs
             where TConfig : Object;        
         
         public void LoadMultiple<TConfig>(string path) 
-            where TConfig : Object, IConfig;
+            where TConfig : Object, IIdConfig;
     }
 }

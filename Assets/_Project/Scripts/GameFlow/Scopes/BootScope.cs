@@ -8,13 +8,13 @@ namespace GameFlow.Scopes
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterBuildCallback(r =>
-            {
-                ExecuteEntryPoint(r);
-            });
+            RegisterEntryPoint(builder);
         }
 
-        private static void ExecuteEntryPoint(IObjectResolver resolver) 
-            => resolver.Resolve<EntryPoint>().Execute();
+        private static void RegisterEntryPoint(IContainerBuilder builder)
+        {
+            builder.Register<BootEntryPoint>(Lifetime.Singleton);
+            builder.RegisterBuildCallback(r => r.Resolve<BootEntryPoint>().Execute());
+        }
     }
 }

@@ -1,6 +1,10 @@
-﻿using GameFlow.Boot;
-using GamePlay.Systems;
+﻿using Additional.Constants;
+using SaveData;
+using Services.Assets;
+using Services.Configs;
 using Services.Factories;
+using Services.Input;
+using Services.Save;
 using VContainer;
 using VContainer.Unity;
 
@@ -10,22 +14,33 @@ namespace GameFlow.Scopes
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            RegisterEntryPoint(builder);
-            RegisterEcsSystems(builder);
-            RegisterOtherServices(builder);
+            RegisterFactories(builder);
+            RegisterSaveLoad(builder);
+            RegisterInput(builder);
+            RegisterOther(builder);
         }
 
-        private static void RegisterEntryPoint(IContainerBuilder builder) 
-            => builder.RegisterEntryPoint<EntryPoint>();
-
-        private static void RegisterEcsSystems(IContainerBuilder builder)
+        private static void RegisterFactories(IContainerBuilder builder)
         {
-            builder.Register<GameInitSystem>(Lifetime.Singleton);
+            builder.Register<ObjectInjector>(Lifetime.Singleton);
         }
 
-        private static void RegisterOtherServices(IContainerBuilder builder)
+        private static void RegisterSaveLoad(IContainerBuilder builder)
         {
-            builder.Register<ObjectActivator>(Lifetime.Singleton);
+            builder
+                .RegisterInstance(new PlayerPrefsStorage<PlayerProgress>(GameConstants.PrefsProgressKey))
+                .As<ISaveStorage<PlayerProgress>>();
+            
+            builder.Register<SaveService>(Lifetime.Singleton);
+        }
+
+        private static void RegisterInput(IContainerBuilder builder) 
+            => builder.Register<IInputService, StandaloneInputService>(Lifetime.Singleton);
+
+        private static void RegisterOther(IContainerBuilder builder)
+        {
+            builder.Register<ConfigProvider>(Lifetime.Singleton).As<IConfigLoader, IConfigAccess>();
+            builder.Register<IAssetProvider, ResourcesAssetProvider>(Lifetime.Singleton);
         }
     }
 }
