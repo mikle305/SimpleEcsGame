@@ -35,13 +35,10 @@ namespace Services.Factories
         }
 
         private void InitTransform(int playerEntity, GameObject playerObject) 
-            => _ecsWorld.GetPool<TransformData>().Add(playerEntity).Transform = playerObject.transform;
+            => _ecsWorld.GetPool<ComponentRef<Transform>>().Add(playerEntity).Value = playerObject.transform;
 
-        private void InitRigidbody(int playerEntity, GameObject playerObject)
-        {
-            var rigidbody = playerObject.GetComponent<Rigidbody2D>();
-            _ecsWorld.GetPool<RigidbodyData>().Add(playerEntity).Rigidbody = rigidbody;
-        }
+        private void InitRigidbody(int playerEntity, GameObject playerObject) 
+            => _ecsWorld.GetPool<ComponentRef<Rigidbody2D>>().Add(playerEntity).Value = playerObject.GetComponent<Rigidbody2D>();
 
         private void InitTag(int playerEntity)
             => _ecsWorld.GetPool<PlayerTag>().Add(playerEntity);
