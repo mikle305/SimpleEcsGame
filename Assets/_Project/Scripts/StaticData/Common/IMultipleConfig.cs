@@ -1,6 +1,6 @@
 ﻿namespace StaticData
 {
-    public interface IIdConfig
+    public interface IMultipleConfig
     {
         public string Id { get; }
     }

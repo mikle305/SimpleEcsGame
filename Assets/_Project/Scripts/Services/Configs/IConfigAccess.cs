@@ -7,12 +7,12 @@ namespace Services.Configs
     public interface IConfigAccess
     {
         public TConfig GetSingle<TConfig>()
-            where TConfig : Object;
+            where TConfig : Object, ISingleConfig;
 
         public TConfig GetMultiple<TConfig>(string id)
-            where TConfig : Object, IIdConfig;
+            where TConfig : Object, IMultipleConfig;
         
         public IEnumerable<TConfig> GetAllMultiple<TConfig>() 
-            where TConfig : Object, IIdConfig;
+            where TConfig : Object, IMultipleConfig;
     }
 }
