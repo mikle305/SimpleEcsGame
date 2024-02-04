@@ -12,6 +12,7 @@ namespace GameFlow.Scopes
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterEntryPoint(builder);
+            RegisterEcsLoop(builder);
             RegisterEcsWorld(builder);
             RegisterEcsSystems(builder);
             RegisterEntitiesFactories(builder);
@@ -22,6 +23,9 @@ namespace GameFlow.Scopes
             builder.RegisterEntryPoint<LevelEntryPoint>().AsSelf();
             builder.RegisterBuildCallback(r => r.Resolve<LevelEntryPoint>().Execute());
         }
+
+        private static void RegisterEcsLoop(IContainerBuilder builder) 
+            => builder.Register<EcsLoop>(Lifetime.Singleton);
 
         private static void RegisterEcsWorld(IContainerBuilder builder)
             => builder.RegisterInstance(new EcsWorld());
